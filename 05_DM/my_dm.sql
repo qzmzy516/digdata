@@ -1,0 +1,45 @@
+select
+        '2021-10-09'as date_time,-- 数据更新的日期
+        time_type,
+        year_code,
+        year_month,
+        month_code,
+        day_month_num,
+        dim_date_id,
+        year_week_name_cn,
+
+        group_type,
+        city_id,
+        city_name,
+        trade_area_id,
+        trade_area_name,
+        store_id,
+        store_name,
+        brand_id,
+        brand_name,
+        max_class_id,
+        max_class_name,
+        mid_class_id,
+        mid_class_name,
+        min_class_id,
+        min_class_name,
+
+        sale_amt,
+        plat_amt,
+        deliver_sale_amt,
+        mini_app_sale_amt,
+        android_sale_amt,
+        ios_sale_amt,
+        pcweb_sale_amt,
+        order_cnt,
+        eva_order_cnt,
+        bad_eva_order_cnt,
+        deliver_order_cnt,
+        refund_order_cnt,
+        miniapp_order_cnt,
+        android_order_cnt,
+        ios_order_cnt,
+        pcweb_order_cnt
+from hive.yp_dws.dws_sale_daycount dc
+    left join hive.yp_dwd.dim_date d
+    on dc.dt=d.date_code
