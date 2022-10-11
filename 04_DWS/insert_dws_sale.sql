@@ -407,7 +407,7 @@ select
 from  temp
 group by
  	grouping sets (
- 		create_date,
+ 		(create_date),
  		(create_date,city_id,city_name),
  		(create_date,city_id,city_name,trade_area_id ,trade_area_name),
  		(create_date,city_id,city_name,trade_area_id ,trade_area_name,store_id,store_name),
