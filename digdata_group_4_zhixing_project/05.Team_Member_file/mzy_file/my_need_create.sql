@@ -68,10 +68,18 @@ class_id,
 class_date,
 sum(morning_leave_count) as morning_leave_count,
 sum(evening_leave_count) as evening_leave_count,
-sum(afternoon_leave) as afternoon_leave
+sum(afternoon_leave) as afternoon_leave_count
 from temp
 group by class_id, class_date)
 
 select
-*
-from number_count
+        n.class_id,
+        n.class_date,
+        morning_leave_count,
+        cast(morning_leave_count as decimal(10,4))/cast(studying_student_count as decimal(10,4)) as morning_leave_percent,
+        evening_leave_count,
+        cast(evening_leave_count as decimal(10,4))/cast(studying_student_count as decimal(10,4) ) as evening_leave_percent,
+        afternoon_leave_count,
+        cast(afternoon_leave_count as decimal(10,4))/cast(studying_student_count as decimal(10,4) ) as afternoon_leave_percent
+from number_count n join zx_dwd.dim_class_studying_student_count c
+    on n.class_id=c.class_id and n.class_date=studying_date
