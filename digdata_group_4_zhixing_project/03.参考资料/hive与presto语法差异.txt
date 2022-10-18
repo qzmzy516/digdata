@@ -1,0 +1,52 @@
+1、insert+CTE
+
+	hive中：
+		with tmp as (select * from xxxxx)
+		insert into bbbb   --注意这里的差异 hive要把insert写在这里
+		select *
+		from tmp;
+	
+	presto中：
+		insert into bbbb
+		with tmp as (select * from xxxxx)
+		select *
+		from tmp;
+		
+2、grouping sets增强聚合
+	hive中：
+		select 
+			month,day,count(cookieid) 
+		from test.t_cookie 
+			group by month,day    --注意这里的差异
+		grouping sets (month,day,(month,day));
+	
+	
+	presto中：
+		select 
+			month,day,count(cookieid) 
+		from test.t_cookie 
+			group by
+		grouping sets (month,day,(month,day));
+
+3、增强聚合中的分组判断问题
+	hive中：
+		Hive 2.3版本之前不支持分组的grouping函数，但支持GROUPING__ID函数
+		我们现在使用的环境是cdh6.2.1-hive2.1.1
+		
+		
+		GROUPING__ID其计算公式与 group by 的顺序、当前粒度的字段有关。
+		
+			第一步：将 group by 的所有字段 倒序 排列。
+			第二步：对于每个字段，如果该字段【出现在了当前粒度中，则该字段位置赋值为1，否则为0。】
+			第三步：这样就形成了一个二进制数，这个二进制数转为十进制，即为当前粒度对应的 grouping__id。
+		
+			详细栗子见资料【Hive中grouping函数问题.pdf】
+
+	presto中：
+		使用grouping进行判断：
+				0表示有  1表示没有
+				多个字段判断，结果返回2进制----->转十进制
+		
+		
+		
+		
