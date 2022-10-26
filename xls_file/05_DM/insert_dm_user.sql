@@ -207,5 +207,5 @@ on old.user_id=new.user_id;
 
 --3.临时表覆盖宽表
 delete from yp_dm.dm_user;
-insert into yp_dm.dm_user
+insert into yp_dm.dm_user;
 select * from yp_dm.dm_user_tmp;
